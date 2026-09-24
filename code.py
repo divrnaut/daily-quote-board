@@ -157,7 +157,10 @@ def set_brightness(level):
 
 
 def main():
-    helpers.sync_time(matrixportal.network, TIME_LOCATION)
+    # Until the first successful sync the clock reads midnight, which would
+    # look like night, so night mode is skipped. Once synced, the clock stays
+    # close enough even if a later resync fails.
+    time_known = helpers.sync_time(matrixportal.network, TIME_LOCATION)
     last_resync = ticks_ms()
 
     current_date = None
@@ -166,10 +169,11 @@ def main():
 
     while True:
         if ticks_diff(ticks_ms(), last_resync) > TIME_RESYNC_SECONDS * 1000:
-            helpers.sync_time(matrixportal.network, TIME_LOCATION)
+            if helpers.sync_time(matrixportal.network, TIME_LOCATION):
+                time_known = True
             last_resync = ticks_ms()
 
-        if helpers.is_night_time(NIGHT_START_HOUR, DAY_ROLLOVER_HOUR):
+        if time_known and helpers.is_night_time(NIGHT_START_HOUR, DAY_ROLLOVER_HOUR):
             if not is_dark:
                 print("Entering power-saver mode until {:02d}:00.".format(DAY_ROLLOVER_HOUR))
                 screen.clear()
@@ -183,7 +187,9 @@ def main():
             set_brightness(1.0)
             is_dark = False
 
-        today = helpers.effective_date(DAY_ROLLOVER_HOUR)
+        # Unsynced, the clock starts at the epoch (2000-01-01 00:00), and rolling
+        # back a day would fall before it, so skip the rollover.
+        today = helpers.effective_date(DAY_ROLLOVER_HOUR if time_known else 0)
         if today != current_date:
             current_date = today
             current_pages = pages_for_date(today)
