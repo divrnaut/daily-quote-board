@@ -1,6 +1,6 @@
 # Daily Quote Board — MatrixPortal M4
 
-Hello, Jessica! It's dangerous. Take this with you.
+Hello, [FRIEND]! It's dangerous. Take this with you.
 
 It is an Adafruit 64x32 RGB Matrix + MatrixPortal M4. This little board is meant
 to be a daily dose of inspiration, a splash of color, and a personal favorite
@@ -207,4 +207,4 @@ All the knobs you'd want to turn live at the top of `code.py`:
 | `PADDING_LEFT/RIGHT/TOP/BOTTOM` | Pixels hidden by your case on each side (see above) |
 
 
-### ❤️, Taniya
+### ❤️, [YOUR BEST FRIEND]
