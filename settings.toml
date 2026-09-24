@@ -5,10 +5,7 @@
 CIRCUITPY_WIFI_SSID = [MY_WIFI_NOT_YOURS]
 CIRCUITPY_WIFI_PASSWORD = [WIFI_PASSWORD]
 
-# Adafruit IO credentials (free account) - used only to fetch the
-# correct local time (with automatic PST/PDT handling) once a day.
-# Sign up at https://io.adafruit.com, then find your username + active
-# key on your io.adafruit.com dashboard (top right -> "My Key").
+# Adafruit credentials
 ADAFRUIT_AIO_USERNAME = [MY_USERNAME]
 ADAFRUIT_AIO_KEY = [MY_AIO_KEY]
 
