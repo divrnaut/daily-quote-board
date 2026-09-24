@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Daily Quote Board — MatrixPortal M4</title>
+    <style>
+      @page {
+        size: Letter;
+        margin: 0.8in;
+      }
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 11pt;
+        line-height: 1.45;
+        color: #111;
+        margin: 0;
+      }
+      h1, h2, h3, h4 {
+        margin-top: 1.1em;
+        margin-bottom: 0.35em;
+        page-break-after: avoid;
+        line-height: 1.2;
+      }
+      h1 { font-size: 24pt; margin-top: 0; }
+      h2 { font-size: 16pt; }
+      h3 { font-size: 13pt; }
+      p, li { margin: 0.35em 0; }
+      ul, ol { padding-left: 1.6em; }
+      code, pre {
+        font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+        font-size: 0.9em;
+      }
+      pre {
+        background: #f5f5f5;
+        border: 1px solid #d9d9d9;
+        padding: 0.8em;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+      }
+      code {
+        background: #f5f5f5;
+        padding: 0.08em 0.25em;
+        border-radius: 3px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0.8em 0;
+      }
+      th, td {
+        border: 1px solid #ccc;
+        padding: 0.35em 0.5em;
+        text-align: left;
+        vertical-align: top;
+      }
+      a { color: #0a5ad6; }
+      blockquote {
+        border-left: 3px solid #bbb;
+        padding-left: 0.9em;
+        color: #444;
+        margin: 0.8em 0;
+      }
+      .small { font-size: 0.95em; }
+    </style>
+  </head>
+  <body>
+    <h1>Daily Quote Board — MatrixPortal M4</h1>
+
+    <p>Hello, Jessica! It's dangerous. Take this with you.</p>
+
+    <p>It is an Adafruit 64x32 RGB Matrix + MatrixPortal M4. This little board is meant to be a daily dose of inspiration, a splash of color, and a personal favorite tucked into your space. Every day at 6:00 AM it picks a new quote from a local file and a fresh pair of quote/source colors from a palette file, then scrolls it across the screen with a little motion and personality. I hope it brightens your office and keeps a little encouragement in view!</p>
+
+    <h2>✨ Quick start</h2>
+    <ul>
+      <li>Add your own quotes in <code>quotes.json</code></li>
+      <li>Swap the colors in <code>colors.json</code></li>
+      <li>Edit <code>settings.toml</code> with your WiFi name and password</li>
+      <li>Keep the board connected to the Internet so it can fetch the correct local time each day</li>
+      <li>Power it on and let it do its thing</li>
+    </ul>
+
+    <h2>📁 What’s in this folder</h2>
+    <pre>code.py                  - the program that runs on the board
+quotes.json              - the list of quotes (edit this to customize!)
+colors.json              - the color palette to pick from each day
+settings.toml.example    - template for your WiFi / Adafruit IO credentials
+frames/
+  frame1.bmp             - placeholder "loading" animation frames
+  frame2.bmp                (3 dots that light up one at a time)
+  frame3.bmp</pre>
+
+    <h2>🛠️ Hardware / software</h2>
+    <ul>
+      <li>Adafruit MatrixPortal M4</li>
+      <li>The 64x32 RGB LED matrix panel, connected per Adafruit's guide</li>
+      <li>A USB-C to USB-A cable</li>
+      <li>Housing: Overture Starry Blue PETG, Rust-oleum Glossy finish</li>
+      <li>CircuitPython installed on the board (this was written against CircuitPython 9.x)</li>
+      <li>A free <a href="https://io.adafruit.com/">Adafruit IO</a> account — only used to fetch the correct time once a day; nothing else on your board touches it</li>
+    </ul>
+
+    <h2>✅ Setup for a working board</h2>
+    <ol>
+      <li><strong>Set up your credentials.</strong> Edit <code>settings.toml</code> to match your home WiFi:</li>
+    </ol>
+
+    <pre>WIFI_SSID = "Your WiFi Network Name"
+WIFI_PASSWORD = "Your WiFi Password"
+ADAFRUIT_IO_USERNAME = "your-adafruit-io-username"
+ADAFRUIT_IO_KEY = "your-adafruit-io-key"</pre>
+
+    <p>The WiFi details are required so the board can connect to your network. The Adafruit IO credentials are used to fetch the current local time once a day. This is important because the board decides which quote to show based on the date and time, and it only rotates at the right time when it knows the correct local time. Copy the finished <code>settings.toml</code> file to the root of the <code>CIRCUITPY</code> drive (next to <code>code.py</code>).</p>
+
+    <h3>Creating an Adafruit account and finding your IO Key</h3>
+
+    <p>If you do not already have an Adafruit account, create one at <a href="https://www.adafruit.com/">adafruit.com</a> and sign in.</p>
+
+    <p>Then go to <a href="https://io.adafruit.com/">Adafruit IO</a> and log in. Once you are signed in, open your profile or account settings and look for the page that shows your Adafruit IO username and the key for your account. That key is the value you paste into <code>ADAFRUIT_IO_KEY</code> in <code>settings.toml</code>.</p>
+
+    <p>The username and key are both required for the board to fetch the time. If you are unsure where to find them, open the Adafruit IO dashboard and look for your username at the top of the page and the "AIO Key" or "Active Key" section in your account settings.</p>
+
+    <ol start="2">
+      <li><strong>Power it up.</strong> The board will connect to WiFi, fetch the time, pick today's quote, and start scrolling.</li>
+    </ol>
+
+    <h2>🔄 If the board was reset or the firmware was reinstalled</h2>
+
+    <p>If the board has been reset, reformatted, or the CircuitPython firmware was reinstalled, use these steps before the normal setup above.</p>
+
+    <ol>
+      <li><strong>Install CircuitPython</strong> on the MatrixPortal M4 if you haven't already (Adafruit's <a href="https://learn.adafruit.com/adafruit-matrixportal-m4/circuitpython-setup">CircuitPython Setup guide</a> walks through this).</li>
+      <li><strong>Install the required libraries.</strong> The easiest way is with <a href="https://learn.adafruit.com/keep-your-circuitpython-libraries-on-devices-up-to-date-with-circup"><code>circup</code></a>:</li>
+    </ol>
+
+    <pre>circup install adafruit_matrixportal adafruit_display_text adafruit_bitmap_font</pre>
+
+    <p><code>circup</code> will automatically pull in the lower-level dependencies (<code>adafruit_esp32spi</code>, <code>adafruit_requests</code>, <code>adafruit_portalbase</code>, <code>adafruit_bus_device</code>, <code>neopixel</code>, <code>adafruit_debouncer</code>, etc.). If you'd rather do it by hand, grab those from the <a href="https://circuitpython.org/libraries">Adafruit CircuitPython Library Bundle</a> and drop them in <code>CIRCUITPY/lib/</code>.</p>
+
+    <ol start="3">
+      <li><strong>Copy the project files</strong> onto <code>CIRCUITPY</code>:</li>
+    </ol>
+
+    <ul>
+      <li><code>code.py</code> → root of CIRCUITPY</li>
+      <li><code>quotes.json</code> → root of CIRCUITPY</li>
+      <li><code>colors.json</code> → root of CIRCUITPY</li>
+      <li><code>frames/</code> folder (with its 3 <code>.bmp</code> files) → root of CIRCUITPY</li>
+    </ul>
+
+    <p>Then return to the setup steps above and fill in your WiFi and Adafruit IO credentials.</p>
+
+    <h2>💬 Customizing the quotes</h2>
+
+    <p>This is the easiest part to personalize. Open <code>quotes.json</code> and replace, add, delete any. It's a JSON array of quote objects, each with a <code>text</code> field and optional <code>author</code> / <code>source</code> fields:</p>
+
+    <pre>[
+  {"text": "You've got this, soldier.", "author": "Karlach", "source": "BG3"},
+  {"text": "sometimes it be like it do.", "author": "Taniya"}
+]</pre>
+
+    <ul>
+      <li><code>text</code> is required.</li>
+      <li><code>author</code> and <code>source</code> are both optional — include whichever you have.</li>
+      <li>Keep quotes on the shorter side (under ~90 characters including attribution) so they read comfortably on a 64x32 display.</li>
+      <li>No code changes are needed — just edit the file and save it back to the board.</li>
+    </ul>
+
+    <p>A couple of JSON-specific gotchas to watch for, since a syntax mistake here will stop the whole program from starting:</p>
+    <ul>
+      <li>Every <code>text</code>/<code>author</code>/<code>source</code> value needs double quotes around it.</li>
+      <li>Don't leave a trailing comma after the last item in the array.</li>
+      <li>If a quote itself contains a double-quote character, escape it as <code>\"</code>.</li>
+      <li>Unlike the old text-file format, JSON doesn't support <code>#</code> comment lines.</li>
+      <li>If you're unsure your edits are valid JSON, paste the file into a free validator like <a href="https://jsonlint.com">jsonlint.com</a>.</li>
+    </ul>
+
+    <p>The board picks which quote to show using the date itself (not randomly), so:</p>
+    <ul>
+      <li>the quote only changes once a day, right at 6:00 AM local time</li>
+      <li>if the board loses power and reboots mid-day, it'll show the same quote it was already on</li>
+    </ul>
+
+    <h2>🎨 Customizing the colors</h2>
+
+    <p>Open <code>colors.json</code> — it's a JSON array of named colors:</p>
+
+    <pre>[
+  {"color": "forest_green", "value": "#3C4A20"},
+  {"color": "sky_blue", "value": "#3AA0FF"}
+]</pre>
+
+    <ul>
+      <li><code>color</code> is just a label.</li>
+      <li><code>value</code> is the color itself, as a hex string like <code>"#3C4A20"</code>.</li>
+      <li>Add as many colors as you like — a bigger palette means more variety day to day.</li>
+    </ul>
+
+    <p><strong>Each day, alongside the day's quote, one color from this list is picked for the quote text and a different one for the author/source line.</strong> If you have more than one color in the list, the quote and source colors are guaranteed not to land on the exact same color on the same day.</p>
+
+    <p>If <code>colors.json</code> is missing or can't be read, the board falls back to a fixed white quote / amber source rather than failing to start.</p>
+
+    <h2>🔧 Tuning the timing and look</h2>
+
+    <p>All the knobs you'd want to turn live at the top of <code>code.py</code>:</p>
+
+    <table>
+      <thead>
+        <tr><th>Setting</th><th>What it controls</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>DAY_ROLLOVER_HOUR</code></td><td>What hour (24h, local time) a new quote is picked</td></tr>
+        <tr><td><code>QUOTE_DISPLAY_SECONDS</code></td><td>Total time budget (default: 2 minutes) for cycling through a quote's pages before moving to the animation</td></tr>
+        <tr><td><code>PAGE_HOLD_SECONDS</code></td><td>How long each page of quote text is held before toggling to the next one</td></tr>
+        <tr><td><code>ATTRIBUTION_HOLD_SECONDS</code></td><td>How long the author/source page is held — shorter than <code>PAGE_HOLD_SECONDS</code></td></tr>
+        <tr><td><code>LETTER_SLIDE_STAGGER</code></td><td>Delay before each successive letter starts sliding</td></tr>
+        <tr><td><code>LETTER_SLIDE_DURATION</code></td><td>How long one letter takes to land, once it starts</td></tr>
+        <tr><td><code>LETTER_SLIDE_START_OFFSET</code></td><td>Pixels to the right of its landing spot a letter starts sliding from</td></tr>
+        <tr><td><code>LETTER_SLIDE_FRAME_DELAY</code></td><td>Time between animation redraws — lower is smoother but uses more CPU</td></tr>
+        <tr><td><code>ANIMATION_FRAME_DELAY</code></td><td>How long each of the 3 loading frames is shown</td></tr>
+        <tr><td><code>ANIMATION_LOOPS</code></td><td>How many times the 3-frame animation loops before returning to the quote</td></tr>
+        <tr><td><code>QUOTE_COLOR</code> / <code>SOURCE_COLOR</code></td><td>Text colors, as hex (e.g. <code>#FFFFFF</code> for white)</td></tr>
+        <tr><td><code>TIME_LOCATION</code></td><td>IANA timezone name used for local time / DST</td></tr>
+        <tr><td><code>PADDING_LEFT/RIGHT/TOP/BOTTOM</code></td><td>Pixels hidden by your case on each side</td></tr>
+      </tbody>
+    </table>
+
+    <h3>❤️, Taniya</h3>
+  </body>
+</html>

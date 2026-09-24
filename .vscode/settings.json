@@ -1,0 +1,15 @@
+{
+    "python.languageServer": "Pylance",
+    "python.analysis.diagnosticSeverityOverrides": {
+        "reportMissingModuleSource": "none",
+        "reportShadowedImports": "none"
+    },
+    "circuitpython.board.version": "9.2.8",
+    "python.analysis.extraPaths": [
+        "/home/divrnaut/.vscode/extensions/wmerkens.vscode-circuitpython-v2-0.3.4/boards/0x239A/0x80CA",
+        "/home/divrnaut/.vscode/extensions/wmerkens.vscode-circuitpython-v2-0.3.4/stubs",
+        "/home/divrnaut/.config/Code/User/globalStorage/wmerkens.vscode-circuitpython-v2/bundle/20260905/adafruit-circuitpython-bundle-py-20260905/lib"
+    ],
+    "circuitpython.board.vid": "0x239A",
+    "circuitpython.board.pid": "0x80CA"
+}

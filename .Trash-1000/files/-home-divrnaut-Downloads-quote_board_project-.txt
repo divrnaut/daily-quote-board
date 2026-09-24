@@ -1,0 +1,1 @@
+/home/divrnaut/Downloads/quote_board_project/helpers.py

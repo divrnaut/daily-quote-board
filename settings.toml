@@ -1,0 +1,17 @@
+# Fill in your real values below. 
+# NOTE: This is an ESP32 board and is only capable of running on 2.4GHz WiFi bands.
+
+# WiFi credentials
+CIRCUITPY_WIFI_SSID = "WaflHaus-2.4G"
+CIRCUITPY_WIFI_PASSWORD = "KiC4@cUfJx8a4GxBsMPz"
+
+# Adafruit IO credentials (free account) - used only to fetch the
+# correct local time (with automatic PST/PDT handling) once a day.
+# Sign up at https://io.adafruit.com, then find your username + active
+# key on your io.adafruit.com dashboard (top right -> "My Key").
+ADAFRUIT_AIO_USERNAME = "divrnaut"
+ADAFRUIT_AIO_KEY = "aio_ukKm17cGmgfebfJKCAxA3uoj5fe3"
+
+
+# Avoiding out of memory crash for CircuitPython
+CIRCUITPY_PYSTACK_SIZE = 3072
